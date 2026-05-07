@@ -19,9 +19,9 @@ class Soutenance
     #[ORM\Column]
     private ?int $numjury = null;
 
-  #[ORM\Column(type: 'date')]
-  #[Assert\NotNull(message: 'La date de soutenance est obligatoire.')]
-private ?\DateTimeInterface $datesoutenance = null;
+    #[ORM\Column(type: 'date')]
+    #[Assert\NotNull(message: 'La date de soutenance est obligatoire.')]
+    private ?\DateTimeInterface $datesoutenance = null;
 
     #[ORM\Column]
     private ?float $note = null;
@@ -59,38 +59,13 @@ private ?\DateTimeInterface $datesoutenance = null;
     }
 
     public function getDatesoutenance(): ?\DateTimeInterface
-{
-    return $this->datesoutenance;
-}
-
-public function setDatesoutenance(\DateTimeInterface $datesoutenance): static
-{
-    $this->datesoutenance = $datesoutenance;
-    return $this;
-}
-
-    public function getDatesoutenanceFormatted(): string
     {
-        return $this->datesoutenance?->format('Y-m-d') ?? '';
+        return $this->datesoutenance;
     }
 
-    public function getDatesoutenanceInput(): string
+    public function setDatesoutenance(\DateTimeInterface $datesoutenance): static
     {
-        return $this->getDatesoutenanceFormatted();
-    }
-
-    public function setDatesoutenanceInput(?string $datesoutenance): static
-    {
-        if (null === $datesoutenance || '' === trim($datesoutenance)) {
-            $this->datesoutenance = null;
-
-            return $this;
-        }
-
-        $parsedDate = \DateTimeImmutable::createFromFormat('Y-m-d', $datesoutenance);
-        if (false !== $parsedDate) {
-            $this->datesoutenance = $parsedDate;
-        }
+        $this->datesoutenance = $datesoutenance;
 
         return $this;
     }
@@ -140,7 +115,6 @@ public function setDatesoutenance(\DateTimeInterface $datesoutenance): static
     public function removeEtudiant(Etudiant $etudiant): static
     {
         if ($this->etudiants->removeElement($etudiant)) {
-            // set the owning side to null (unless already changed)
             if ($etudiant->getSoutenance() === $this) {
                 $etudiant->setSoutenance(null);
             }
