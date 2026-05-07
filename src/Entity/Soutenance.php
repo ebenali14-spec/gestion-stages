@@ -93,6 +93,10 @@ class Soutenance
 
         return $this;
     }
+    public function __toString(): string
+{
+    return 'Jury '.$this->numjury.' — '.($this->datesoutenance?->format('d/m/Y') ?? '');
+}
 
     /**
      * @return Collection<int, Etudiant>
